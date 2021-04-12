@@ -1,4 +1,4 @@
-require 'money'
+require 'money2'
 require 'employ'
 
 
@@ -39,5 +39,19 @@ RSpec.describe Money do
 
   end
 
-  
+  context "時薪加班費" do
+    let(:employ) { Employ.new(false) }
+    it "平日或休息日" do
+      money = Money.new(125, employ: employ)
+      money.add_w_s(4)
+      expect(money.pay).to be 752
+    end
+
+    it "假日" do
+      money = Money.new(125, employ: employ)
+      money.add_h_s(5)
+      expect(money.pay).to be 1250
+    end
+
+  end
 end
